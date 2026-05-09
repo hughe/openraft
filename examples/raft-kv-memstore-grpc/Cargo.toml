@@ -18,6 +18,10 @@ repository = "https://github.com/databendlabs/openraft"
 name = "raft-key-value"
 path = "src/bin/main.rs"
 
+[[bin]]
+name = "raft-kv-bench"
+path = "src/bin/bench.rs"
+
 [dependencies]
 log-mem  = { path = "../log-mem", features = [] }
 openraft = { path = "../../openraft", features = ["type-alias"] }
@@ -25,6 +29,7 @@ openraft = { path = "../../openraft", features = ["type-alias"] }
 clap               = { version = "4.1.11", features = ["derive", "env"] }
 futures            = { version = "0.3.31" }
 prost              = { version = "0.13.4" }
+tokio              = { version = "1", features = ["rt-multi-thread", "macros"] }
 tonic              = { version = "0.12.3" }
 tracing            = { version = "0.1.29" }
 tracing-subscriber = { version = "0.3.0", features = ["env-filter"] }
