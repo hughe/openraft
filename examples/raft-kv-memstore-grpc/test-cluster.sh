@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -o errexit
 
@@ -25,15 +25,7 @@ rpc() {
 
     echo '---'" rpc(127.0.0.1:$port/$method, $body)"
 
-    {
-	time $cmd
-    } | {
-        if type jq > /dev/null 2>&1; then
-            jq 'if has("data") then .data |= fromjson else . end'
-        else
-            cat
-        fi
-    }
+    time $cmd
 
     echo
     echo
