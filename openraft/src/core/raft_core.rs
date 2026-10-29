@@ -2184,11 +2184,14 @@ where
         }
 
         let effective = self.engine.state.membership_state.effective();
-        // Whether this node is the only one that will start an election.
-        // There is no need to check `committed` membership.
-        // Because there won't be a leader established without contacting this node, if effective membership
-        // contains only this node.
-        let is_single_campaigner = effective.is_voter(&self.id) && effective.voter_ids().count() == 1;
+        // An uncommitted singleton can still have a live leader in the previous
+        // membership. Keep honoring its election timeout until the removal is
+        // committed, so this node does not take over before that leader receives
+        // the final membership acknowledgement and completes the caller's response.
+        let is_single_campaigner = effective.is_voter(&self.id)
+            && effective.voter_ids().count() == 1
+            // Is the latest membership entry the same entry as my committed membership?
+            && self.engine.state.membership_state.committed().log_id() == effective.log_id();
 
         if is_single_campaigner {
             // When a node restart, it may stay in any state but the in progress election(engine.candidate) is
