@@ -21,6 +21,7 @@ mod t30_commit_joint_config;
 mod t30_elect_with_new_config;
 mod t31_add_remove_follower;
 mod t31_remove_leader;
+mod t31_remove_leader_delayed_ack;
 mod t31_removed_follower;
 mod t51_hung_follower_blocks_loop;
 mod t51_remove_unreachable_follower;
